@@ -32,8 +32,8 @@ To fulfill operational, resilience, and security standards, the network implemen
 * **Trunking Architecture:** Uplinks between floor switches and their respective distribution routers operate as **802.1Q trunks (Router-on-a-Stick)** to carry all departmental and wireless VLAN tags over minimal physical cabling.
 * **Spanning Tree Enhancements:** All edge/access ports directly interfacing with end stations and WAPs are configured with `Spanning-Tree PortFast` and `BPDU Guard` to prevent spanning-tree renegotiation attacks and loops.
 * **Layer 2 Quarantine & VLAN Hardening:**
-* Default Native VLAN 1 is stripped from all trunk links and mapped to an isolated Blackhole/Parking VLAN.
-* All unused switch interfaces are administratively shut down and assigned to the unrouted Blackhole VLAN.
+  * Default Native VLAN 1 is stripped from all trunk links and mapped to an isolated Blackhole/Parking VLAN.
+  * All unused switch interfaces are administratively shut down and assigned to the unrouted Blackhole VLAN.
 
 
 
@@ -48,17 +48,17 @@ To fulfill operational, resilience, and security standards, the network implemen
 
 * **Single-Area Core:** All distribution routers participate in **OSPF Process 1 within Backbone Area 0** across internal serial links and sub-interfaces.
 * **Default-Route Metric Tuning:**
-* Active WAN Router (R3) advertises an OSPF default route with a lower metric to serve as the preferred path for all outbound hotel traffic.
-* Standby WAN Router (R2) advertises an OSPF default route with an elevated metric to remain an idle, deterministic failover path.
+  * Active WAN Router (R3) advertises an OSPF default route with a lower metric to serve as the preferred path for all outbound hotel traffic.
+  * Standby WAN Router (R2) advertises an OSPF default route with an elevated metric to remain an idle, deterministic failover path.
 
 
 
 #### 5. WAN Edge, Gateway Redundancy & NAT/PAT
 
 * **First Hop Redundancy (HSRP):** The dual perimeter routers (R2 and R3) interface with the Edge Transit segment running HSRP:
-* R3 functions as the **Active Virtual Router** with elevated priority and preemption enabled.
-* R2 functions as the **Standby Router**.
-* Both share a single Virtual IP (VIP) designated as the gateway towards the ISP domain.
+  * R3 functions as the **Active Virtual Router** with elevated priority and preemption enabled.
+  * R2 functions as the **Standby Router**.
+  * Both share a single Virtual IP (VIP) designated as the gateway towards the ISP domain.
 
 
 * **Multi-Homed ISP Failover (Floating Static Routing):** Both perimeter routers maintain a primary default static route targeting the Primary ISP, coupled with a higher Administrative Distance (Floating Static Route) targeting the Secondary/Backup ISP.
@@ -70,13 +70,13 @@ To fulfill operational, resilience, and security standards, the network implemen
 * **Zero-Trust Wi-Fi Policy (Extended ACL):** Wireless client traffic is strictly filtered at the sub-interface level to permit essential network services (DHCP and DNS) and outbound public Internet transit, while explicitly dropping (`deny`) all lateral communication towards internal enterprise VLANs and printer resources.
 * **Inter-VLAN Departmental Isolation:** Extended ACLs prevent non-privileged departments (e.g., Reception and Store) from establishing connections to restricted administrative and accounting databases (Finance and Executive Admin).
 * **Port Security on Critical Access Ports:** The IT Department switch strictly enforces MAC-based Port Security on port `Fa0/1` dedicated to the administration machine (`Test-PC`):
-* Employs sticky MAC learning.
-* Enforces a violation mode of `shutdown` upon encountering unauthorized hardware.
+  * Employs sticky MAC learning.
+  * Enforces a violation mode of `shutdown` upon encountering unauthorized hardware.
 
 
 * **Secure Remote Management (SSHv2):**
-* Telnet is permanently disabled on all routing and switching appliances in favor of SSHv2.
-* Management Plane ACLs bound to `line vty` restrict remote administrative login privileges exclusively to the `Test-PC` / IT management subnet.
+  * Telnet is permanently disabled on all routing and switching appliances in favor of SSHv2.
+  * Management Plane ACLs bound to `line vty` restrict remote administrative login privileges exclusively to the `Test-PC` / IT management subnet.
 
 
 * **System Hardening:** All network appliances enforce universal password hashing (`service password-encryption`), anti-brute-force authentication controls (`login block-for`), and formal legal login warning banners (`banner motd`).
@@ -98,17 +98,17 @@ To fulfill operational, resilience, and security standards, the network implemen
 # IP Addressing Table
 | VLAN ID    | Network Address |  Default Gateway |  Usable Range |
 | :---: | :---: | :---: | :---: |
-| 10    | 192.168.1.0/24    | 192.168.1.1    | 192.168.1.2-192.168.1.254    |
-| 20    | 192.168.2.0/24    | 192.168.2.1    | 192.168.2.2-192.168.2.254    |
-| 30    | 192.168.3.0/24    | 192.168.3.1    | 192.168.3.2-192.168.3.254    |
-| 40    | 192.168.4.0/24    | 192.168.4.1    | 192.168.4.2-192.168.4.254    |
-| 50    | 192.168.5.0/24    | 192.168.5.1    | 192.168.5.2-192.168.5.254    |
-| 60    | 192.168.6.0/24    | 192.168.6.1    | 192.168.6.2-192.168.6.254    |
-| 70    | 192.168.7.0/24    | 192.168.7.1    | 192.168.7.2-192.168.7.254    |
-| 80    | 192.168.8.0/24    | 192.168.8.1    | 192.168.8.2-192.168.8.254    |
-| 91    | 172.16.10.0/23    | 172.16.10.1    | 172.16.10.2-172.16.11.254    |
-| 92    | 172.16.20.0/23    | 172.16.20.1    | 172.16.20.2-172.16.21.254    |
-| 93    | 172.16.30.0/23    | 172.16.30.1    | 172.16.30.2-172.16.31.254    |
+| 10    | 192.168.1.0/24    | 192.168.1.1    | 192.168.1.11-192.168.1.254    |
+| 20    | 192.168.2.0/24    | 192.168.2.1    | 192.168.2.11-192.168.2.254    |
+| 30    | 192.168.3.0/24    | 192.168.3.1    | 192.168.3.11-192.168.3.254    |
+| 40    | 192.168.4.0/24    | 192.168.4.1    | 192.168.4.11-192.168.4.254    |
+| 50    | 192.168.5.0/24    | 192.168.5.1    | 192.168.5.11-192.168.5.254    |
+| 60    | 192.168.6.0/24    | 192.168.6.1    | 192.168.6.11-192.168.6.254    |
+| 70    | 192.168.7.0/24    | 192.168.7.1    | 192.168.7.11-192.168.7.254    |
+| 80    | 192.168.8.0/24    | 192.168.8.1    | 192.168.8.11-192.168.8.254    |
+| 91    | 172.16.10.0/23    | 172.16.10.1    | 172.16.10.11-172.16.11.254    |
+| 92    | 172.16.20.0/23    | 172.16.20.1    | 172.16.20.11-172.16.21.254    |
+| 93    | 172.16.30.0/23    | 172.16.30.1    | 172.16.30.11-172.16.31.254    |
 
 
 ---
