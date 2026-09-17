@@ -3,7 +3,7 @@
 
 ### Project Objectives
 
-The primary objective of the **Vic Modern Hotel Network Infrastructure Project** is to design, implement, and validate a highly available, secure, and scalable enterprise campus network for a three-story commercial facility. The technical goals include:
+The primary objective of the **Vic Hotel Network Infrastructure Project** is to design, implement, and validate a highly available, secure, and scalable enterprise campus network for a three-story commercial facility. The technical goals include:
 
 * **High Availability & Fault Tolerance:** Eliminate single points of failure across the WAN Edge and inter-router backbone by deploying Layer 3 First Hop Redundancy (HSRP), multi-homed ISP routing with floating static failover, LACP EtherChannel trunk aggregation, and dynamic OSPF convergence.
 * **Network Segmentation & Scalability:** Establish a hierarchical Layer 2 and Layer 3 architecture utilizing IEEE 802.1Q Router-on-a-Stick trunking to cleanly segment departmental traffic and guest services into dedicated VLANs.
@@ -75,11 +75,8 @@ To fulfill operational, resilience, and security standards, the network implemen
 
 
 * **Secure Remote Management (SSHv2):**
-  * Telnet is permanently disabled on all routing and switching appliances in favor of SSHv2.
+  * Telnet is permanently disabled on all routing appliances in favor of SSHv2.
   * Management Plane ACLs bound to `line vty` restrict remote administrative login privileges exclusively to the `Test-PC` / IT management subnet.
-
-
-* **System Hardening:** All network appliances enforce universal password hashing (`service password-encryption`), anti-brute-force authentication controls (`login block-for`), and formal legal login warning banners (`banner motd`).
 
 ---
 # Cisco Packet Tracer
