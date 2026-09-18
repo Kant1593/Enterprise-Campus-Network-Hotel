@@ -1,6 +1,30 @@
 # Enterprise-Campus-Network-Hotel
 ---
 
+# Verification
+| **หมวดหมู่**    | **ข้อกำหนดทางเทคนิค (Requirement)**  | **คำสั่งตรวจสอบ / วิธีทดสอบ (Verification Command)** | **ผลลัพธ์ที่คาดหวัง (Expected Outcome)** | **หลักฐานภาพถ่าย (Evidence / Screenshot)** |
+| - | - | - | - | - |
+| Physical Topology | Full-Mesh Serial Core Backbone | `show ip interface brief`,`show ip route` | พอร์ต Serial บน R1, R2, R3 ขึ้น up/up และรู้จักเส้นทางวง Serial Core Backbone | <img width="1766" height="996" alt="image" src="https://github.com/user-attachments/assets/3bade50d-83e1-4ec6-9692-4d740ef51d84" /> <img width="808" height="795" alt="image" src="https://github.com/user-attachments/assets/e5077ed4-957e-45a5-946b-51fea2b4e17d" /> <img width="830" height="828" alt="image" src="https://github.com/user-attachments/assets/64d61120-3c85-4eb0-acc2-f067f3aad90c" /> <img width="797" height="785" alt="image" src="https://github.com/user-attachments/assets/4066319a-9636-4803-82ae-33621d4745cb" /> |
+| Physical Topology | Dual Edge Transit Infrastructure | ตรวจสอบการเชื่อมต่อทางกายภาพ R2/R3 และ Dual ISP เข้า Edge Switches | ทราฟฟิก WAN Edge เชื่อมต่อไปยังทั้ง 2 สวิตช์อย่างสมบูรณ์ | <img width="572" height="395" alt="image" src="https://github.com/user-attachments/assets/b2f65333-da43-476b-865b-f8db2f1d1ca7" /> |
+| Layer 2 Resiliency | LACP EtherChannel Trunk (802.3ad) | `show etherchannel summary` บน Edge-SW1 และ SW2 | Group 1 ขึ้นแฟลก `SU` โปรโตคอล `LACP` และพอร์ตสมาชิกติดแฟลก `(P)` | <img width="574" height="358" alt="image" src="https://github.com/user-attachments/assets/e6c7db38-0ccc-4a07-a321-44f238d19034" /> <img width="577" height="359" alt="image" src="https://github.com/user-attachments/assets/57f6fb6f-145d-4d85-b09d-f03f1cf0a7fa" /> |
+| Layer 2 Resiliency | Router-on-a-Stick (802.1Q) & Native VLAN 999 | `show interfaces trunk` บน Switch ทุกชั้น | พอร์ต Trunk ขึ้น `trunking`, Native VLAN เป็น 999 และ Prune เฉพาะ VLAN ประจำชั้น |  |
+| Layer 2 Resiliency | STP PortFast & BPDU Guard | `show spanning-tree summary` | `Access Ports` มีสถานะ `PortFast enabled` และ `BPDU Guard enabled` |  |
+| Layer 2 Resiliency | Quarantine Unused Ports to Blackhole VLAN | `show interfaces status`,`show vlan brief` | พอร์ตที่ไม่ได้ใช้งานถูกสั่ง `shutdown` และย้ายไปสังกัด `VLAN 999` |  |
+| IP & Services | RFC 1918 Hierarchy & Subnet Allocation |  |  | (https://github.com/Kant1593/Enterprise-Campus-Network-Hotel/edit/main/README.md#ip-addressing-table) |
+| IP & Services | Multi-Pool DHCP Server & IP Exclusion | `show ip dhcp binding`,`show ip dhcp pool` บน R1, R2, R3 | แจก IP ถูกต้องตาม Subnet, เริ่มต้นแจกที่ .11 (กัน .1 - .10) |  |
+| IP & Services | Dedicated Departmental Network Printers | ตรวจสอบสถานะและ IP Configuration ของ Printer | เครื่องพิมพ์ประจำแผนกมี Static IP อยู่ในช่วง .2 และตอบสนอง Ping |  |
+| Dynamic Routing | OSPF Backbone | `show ip ospf neighbor` บน R1, R2, R3 | เราเตอร์ทุกตัวสถาปนาสถานะ OSPF Neighbor ผ่าน Serial เป็น `FULL/ -` |  |
+| Dynamic Routing | OSPF Passive Interfaces | `show ip ospf interface` บน R1, R2, R3 | ขา Sub-interface ของ LAN และ Wi-Fi แสดงข้อความ `No Hellos (Passive)` |  |
+| Dynamic Routing | Default Route Injection & Metric Tuning | `show ip route` บน R1 และ R2 | R1 รับ Default Route ออก R3 ทางเดียว; R2 มีเส้นทาง OSPF ชนะ Static AD 120 |  |
+| WAN Edge | HSRP Gateway Redundancy | show standby brief บน R2 และ R3 | R3 เป็น `Active` (Priority 110, Preempt on) และ R2 เป็น `Standby` (Priority 100) |  |
+| WAN Edge | Multi-Homed Floating Static Route Failover | show ip route เมื่อจำลองปิด ISP หลัก | R2 สลับการส่งต่อทราฟฟิกไปหา Backup ISP (AD 130) เมื่อเส้นทางหลักไม่พร้อมใช้งาน |  |
+| WAN Edge | Dynamic PAT (NAT Overload) | show ip nat translations,show ip nat statistics | แพ็กเก็ตภายในถูกแปลง Private IP เป็น Public IP ขานอกขณะออกอินเทอร์เน็ต |  |
+| WAN Edge | ISP Reverse Route Target to HSRP VIP | show ip route บน ISP Router | มีเส้นทาง Static Aggregate วง `192.168.0.0/16` และ `172.16.0.0/16` ชี้มาที่ VIP |  |
+| Security & Hardening | Zero-Trust Wi-Fi Extended ACL | Ping จาก Wi-Fi ไป Gateway, Internet และ LAN | Ping เกตเวย์และอินเทอร์เน็ตผ่าน แต่ถูกปฏิเสธเมื่อพยายามเข้าวงภายใน |  |
+| Security & Hardening | Inter-VLAN Isolation | Ping จากแผนกทั่วไป | เข้าถึงแผนกทั่วไปได้ แต่ขึ้น Destination Host Unreachable ไปยัง Finance/Admin |  |
+| Security & Hardening | Port Security on IT Admin Machine | เอา PC เครื่องอื่นมาเสียบแทน Test-PC | port fa0/1 ต้องปิดการทำงานจาก Violation Mode Shutdown MAC แบบ Sticky |  |
+| Security & Hardening | Secure Remote Management | ทดสอบ SSH และ Telnet เข้า R1, R2, R3 | Telnet ถูกปฏิเสธ; SSHv2 เข้าได้เฉพาะจาก Subnet ของ IT เท่านั้น |  |
+---
 ### Project Objectives
 
 The primary objective of the **Vic Hotel Network Infrastructure Project** is to design, implement, and validate a highly available, secure, and scalable enterprise campus network for a three-story commercial facility. The technical goals include:
@@ -80,9 +104,10 @@ To fulfill operational, resilience, and security standards, the network implemen
 
 ---
 # Cisco Packet Tracer
-สามารถโหลดไฟล์ Cisco Packet Tracer (.pkt) ได้ที่ [Click here to download](https://drive.google.com/file/d/1CtQH33iUcUt0y91gwiHrdgJ_3EvV5zOz/view?usp=sharing)
+สามารถโหลดไฟล์ Cisco Packet Tracer (.pkt) ได้ที่ [Click here to download](https://drive.google.com/file/d/1CZ73U3c0N1ihZB7oG54o21SNfZ3rJTAp/view?usp=sharing)
 
 รูปภาพ topology ใน Cisco Packet Tracer
+<img width="2739" height="2125" alt="logical network diagram" src="https://github.com/user-attachments/assets/5083f518-8d90-4127-a1a8-0aa7ffc03cd3" />
 
 ---
 # Topology
@@ -109,4 +134,4 @@ To fulfill operational, resilience, and security standards, the network implemen
 
 
 ---
-# Verification
+
