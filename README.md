@@ -80,7 +80,7 @@ To fulfill operational, resilience, and security standards, the network implemen
 
 ---
 # Cisco Packet Tracer
-สามารถโหลดไฟล์ Cisco Packet Tracer (.pkt) ได้ที่ [Click here to download](https://drive.google.com/file/d/1CZ73U3c0N1ihZB7oG54o21SNfZ3rJTAp/view?usp=sharing)
+สามารถโหลดไฟล์ Cisco Packet Tracer (.pkt) ได้ที่ [Click here to download](https://drive.google.com/file/d/1M30hpUoMjS6MDLg78o6NvnV5mzscutTJ/view?usp=sharing)
 
 รูปภาพ topology ใน Cisco Packet Tracer
 <img width="2739" height="2125" alt="logical network diagram" src="https://github.com/user-attachments/assets/5083f518-8d90-4127-a1a8-0aa7ffc03cd3" />
