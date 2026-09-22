@@ -87,10 +87,14 @@ To fulfill operational, resilience, and security standards, the network implemen
 
 ---
 # Topology
-สามารถเข้ามาดู Topology ได้ที่ [Click Here View](https://drive.google.com/file/d/1CtQH33iUcUt0y91gwiHrdgJ_3EvV5zOz/view?usp=sharing)
+สามารถเข้ามาดู Topology ได้ที่ [Click Here View](https://drive.google.com/file/d/1CtQH33iUcUt0y91gwiHrdgJ_3EvV5zOz/view?usp=sharing) กรุณาเปิดด้วย Draw.io
 
-รูปภาพ logical network topology จาก link ข้างต้น
+รูปภาพ logical network topology จาก link ข้างต้น (หน้าที่1)
 <img width="5848" height="5288" alt="image" src="https://github.com/user-attachments/assets/f027497f-c134-4d9b-8044-1bc7a6bc31a2" />
+
+รูปภาพ physical network topology จาก link ข้างต้น (หน้าที่2)
+<img width="10320" height="6892" alt="image" src="https://github.com/user-attachments/assets/633f89e5-17f1-4e78-b1bd-b24366883eea" />
+
 
 ---
 # IP Addressing Table
@@ -107,6 +111,8 @@ To fulfill operational, resilience, and security standards, the network implemen
 | 91    | 172.16.10.0/23    | 172.16.10.1    | 172.16.10.11-172.16.11.254    |
 | 92    | 172.16.20.0/23    | 172.16.20.1    | 172.16.20.11-172.16.21.254    |
 | 93    | 172.16.30.0/23    | 172.16.30.1    | 172.16.30.11-172.16.31.254    |
+
+Printer ทุกตัวถูกเลือก IP Address เป็น 192.168.x.2 เมื่อ x คือ Network Address ของ Vlan ID นั้นๆ
 
 
 ---
